@@ -39,7 +39,7 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction
  * @property args the [Arguments] of the command
  * @property commandClient the [CommandClient] which executed this command
  * @property bot instance of the [DevCordBot]
- * @property message the message that triggered the command
+ * @property event the interaction that triggered the command
  * @property devCordUser User storing database settings. See [DevCordUser]
  */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
@@ -60,19 +60,19 @@ data class Context(
         get() = event.jda
 
     /**
-     * The id of [message].
+     * The id of [event].
      */
     val interactionId: Long
         get() = event.interactionIdLong
 
     /**
-     * The [TextChannel] of [message].
+     * The [TextChannel] of [event].
      */
     val channel: MessageChannel
         get() = event.channel
 
     /**
-     * The author of the [message].
+     * The author of the [event].
      */
     val author: User
         get() = event.user
@@ -151,9 +151,5 @@ data class Context(
      */
     fun hasPermission(permission: Permission): Boolean =
         commandClient.permissionHandler.isCovered(permission, member, devCordUser) == PermissionState.ACCEPTED
-
-    private fun notifyCommandHandler(action: MessageAction) = action.map {
-//        (commandClient as CommandClientImpl).acknowledgeResponse(message.idLong, it.channel.idLong, it.idLong); it
-    }
 
 }
